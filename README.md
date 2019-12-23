@@ -12,27 +12,26 @@ Started with :heart: :beers: :fire: in Béthune #opengento
 - https://app.swaggerhub.com/apis/Sylius/sylius-shop-api/1.0.0#/Product
 - https://www.gatsbyjs.org/docs/
 
-## Accéder à l'API
+## Install
 
-- http://SYLIUS_URL.test/shop-api/product-latest/
+### With docker (recommended)
 
-## Pour générer les clés secrètes JWT
+#### Prerequisites
 
-En dév, la passphrase est `Opengento !`.
+- docker 1.13.0+
+- docker-compose
+- traefik
 
-```
-openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
-openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
-```
+#### Steps
 
-(Source : https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/index.md#generate-the-ssh-keys)
+- create `.env.development` and add you sylius shop URL like `GATSBY_SYLIUS_URL=http://my-sylius-shop.com`
+- run cmd `docker-compose up -d`
+- open `https://gatsbylius.test/` in your browser
 
-## Erreurs communes
+### Without docker
 
-### Si composer génère une erreur de mémoire
+#### Prerequisites
 
-Préfixer la commande avec `COMPOSER_MEMORY_LIMIT=-1` :
-
-```
-COMPOSER_MEMORY_LIMIT=-1 composer install
-```
+- Node 10+ (12 recommended)
+- run cmd `npm install && npm run develop`
+- open `http://localhost:8000/` in your browser
