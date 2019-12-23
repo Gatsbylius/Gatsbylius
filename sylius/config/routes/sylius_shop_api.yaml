@@ -1,2 +1,0 @@
-sylius_shop_api:
-    resource: "@SyliusShopApiPlugin/Resources/config/routing.yml"
