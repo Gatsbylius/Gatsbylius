@@ -1,70 +1,19 @@
 version: "3"
 services:
-  php:
-    build: ./docker/php
-    depends_on:
-      - db
+  node:
+    build: ./docker/node
     volumes:
-      - ./sylius:/var/www/html
+      - .:/project
+      - .npm:/.npm
+      - $SSH_AUTH_SOCK:/ssh-agent
     ports:
-      - 80
+      - 3000
     networks:
       - default
       - traefik
     labels:
-      traefik.docker.network: "traefik"
-      traefik.frontend.rule: "Host:sylius.test"
-
-  composer:
-    image: composer
-    depends_on:
-      - db
-    volumes:
-      - ./sylius:/app
-    working_dir: /app
-    entrypoint: composer
-
-  db:
-    image: mariadb:10.2
-    volumes:
-      - db-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: sylius
-      MYSQL_USER: sylius
-      MYSQL_PASSWORD: sylius
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
-    ports:
-      - 80
-    networks:
-      - default
-      - traefik
-    labels:
-      traefik.docker.network: "traefik"
-      traefik.frontend.rule: "Host:pma.sylius.test"
-
-  gatsby:
-    build: docker/gatsby
-    expose:
-      - 8000
-    ports:
-      - 8000
-    volumes:
-      - ./gatsby:/home/gatsby
-      - ./sylius:/home/sylius
-    command: tail -f /dev/null
-    labels:
-      traefik.docker.network: "traefik"
-      traefik.frontend.rule: "Host:gatsby.test"
-      traefik.port: "8000"
-
-volumes:
-  db-data:
-    driver: local
+      - traefik.frontend.rule=Host:gatsbylius.test
+      - traefik.port=3000
 
 networks:
   traefik:
