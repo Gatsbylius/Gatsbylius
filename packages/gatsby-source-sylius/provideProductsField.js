@@ -3,7 +3,8 @@ module.exports = ({ node, getNode, createNodeId, createNodeField }) => {
     node &&
     node.internal &&
     node.internal.type === "Product" &&
-    node.taxons
+    node.taxons &&
+    node.taxons.main
   ) {
     const categoryNode = getNode(createNodeId(`category-${node.taxons.main}`));
 

@@ -19,6 +19,7 @@ module.exports = {
       resolve: `gatsby-source-sylius`,
       options: {
         syliusUrl: `https://{{your-sylius-url}}`,
+        mainTaxonCode: `category`,
       },
     },
   ],

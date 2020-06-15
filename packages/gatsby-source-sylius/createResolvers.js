@@ -15,27 +15,31 @@ module.exports = ({
     Product: {
       localImage: {
         resolve: source =>
-          createRemoteFileNode({
-            url: source.firstImage,
-            store,
-            cache,
-            createNode,
-            createNodeId,
-            reporter,
-          }),
+          source.firstImage
+            ? createRemoteFileNode({
+                url: source.firstImage,
+                store,
+                cache,
+                createNode,
+                createNodeId,
+                reporter,
+              })
+            : null,
       },
     },
     Category: {
       localImage: {
         resolve: source =>
-          createRemoteFileNode({
-            url: source.categoryImage,
-            store,
-            cache,
-            createNode,
-            createNodeId,
-            reporter,
-          }),
+          source.categoryImage
+            ? createRemoteFileNode({
+                url: source.categoryImage,
+                store,
+                cache,
+                createNode,
+                createNodeId,
+                reporter,
+              })
+            : null,
       },
       parent: {
         resolve: source =>

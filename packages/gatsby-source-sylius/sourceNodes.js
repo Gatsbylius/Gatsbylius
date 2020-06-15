@@ -47,23 +47,35 @@ module.exports = async (
     return await createNode(node);
   };
 
-  await getAllCategoryData(options.syliusUrl).then(categories => {
-    return categories.map(originalCategoryData => {
-      const categoryData = adaptCategory(originalCategoryData);
+  await getAllCategoryData(options.syliusUrl, options.mainTaxonCode)
+    .then(categories => {
+      return categories.map(originalCategoryData => {
+        const categoryData = adaptCategory(originalCategoryData);
 
-      return createNodeFromCategory(categoryData);
-    });
-  });
-
-  await getAllProductsData(options.syliusUrl).then(({ items }) => {
-    return Promise.all(
-      items.map(originalProductData => {
-        const productData = adaptProduct({
-          product: originalProductData,
-          syliusUrl: options.syliusUrl,
-        });
-        return createNodeFromProduct(productData);
-      })
+        return createNodeFromCategory(categoryData);
+      });
+    })
+    .catch(() =>
+      console.error(
+        "There was an error when retrieving the taxons (categories). Do you install & configure ShopApiPlugin(https://github.com/Sylius/ShopApiPlugin) in your Sylius?"
+      )
     );
-  });
+
+  await getAllProductsData(options.syliusUrl)
+    .then(({ items }) => {
+      return Promise.all(
+        items.map(originalProductData => {
+          const productData = adaptProduct({
+            product: originalProductData,
+            syliusUrl: options.syliusUrl,
+          });
+          return createNodeFromProduct(productData);
+        })
+      );
+    })
+    .catch(() =>
+      console.error(
+        "There was an error when retrieving the products. Do you install & configure ShopApiPlugin(https://github.com/Sylius/ShopApiPlugin) in your Sylius?"
+      )
+    );
 };

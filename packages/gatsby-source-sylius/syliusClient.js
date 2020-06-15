@@ -23,12 +23,12 @@ const getAllProductsData = async syliusUrl => {
   }).then(response => response.body);
 };
 
-const getAllCategoryData = async syliusUrl => {
+const getAllCategoryData = async (syliusUrl, mainTaxonCode) => {
   if (!syliusUrl) {
     return require("./__fixtures__/category.json").self;
   }
 
-  return got(`${syliusUrl}/shop-api/taxons/category`, {
+  return got(`${syliusUrl}/shop-api/taxons/${mainTaxonCode}`, {
     json: true,
   })
     .then(response => response.body.self)
